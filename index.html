@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PESHYO | Perfume Ecommerce</title>
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --bg-soft: #14141b;
+      --panel: rgba(255,255,255,0.06);
+      --panel-2: rgba(255,255,255,0.08);
+      --text: #f7f3ed;
+      --muted: #c9c0b2;
+      --line: rgba(255,255,255,0.1);
+      --gold: #d8b26a;
+      --gold-soft: #f1deb3;
+      --danger: #ff7878;
+      --radius: 24px;
+      --shadow: 0 18px 60px rgba(0,0,0,0.34);
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(216,178,106,0.16), transparent 22%),
+        radial-gradient(circle at 90% 10%, rgba(255,255,255,0.08), transparent 18%),
+        linear-gradient(145deg, #08080b, #121218 45%, #0d0d11 100%);
+      overflow-x: hidden;
+    }
+
+    body.menu-open { overflow: hidden; }
+
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    button, input, textarea { font: inherit; }
+
+    .container { width: min(92%, var(--max)); margin: auto; }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(8,8,11,0.74);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 0;
+    }
+
+    .logo {
+      font-size: 1.15rem;
+      font-weight: 900;
+      letter-spacing: 0.24em;
+      white-space: nowrap;
+    }
+
+    .logo-image-wrap {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .brand-logo {
+      height: 58px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 6px 16px rgba(0,0,0,0.22));
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cart-btn, .menu-btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .cart-btn:hover, .menu-btn:hover { background: rgba(255,255,255,0.08); }
+    .menu-btn { display: none; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+      color: #111;
+      box-shadow: 0 10px 30px rgba(216,178,106,0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(216,178,106,0.34);
+    }
+
+    .btn-outline {
+      border-color: var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+    }
+
+    .btn-outline:hover { background: rgba(255,255,255,0.09); }
+
+    .hero {
+      padding: 84px 0 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      border: 1px solid rgba(216,178,106,0.28);
+      color: var(--gold-soft);
+      background: rgba(216,178,106,0.08);
+      padding: 8px 14px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 6vw, 5.2rem);
+      line-height: 1.02;
+      max-width: 12ch;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.04rem;
+      max-width: 58ch;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-badges span {
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .hero-card {
+      min-height: 620px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03));
+      border: 1px solid var(--line);
+      border-radius: 36px;
+      box-shadow: var(--shadow);
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before,
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(8px);
+    }
+
+    .hero-card::before {
+      width: 220px;
+      height: 220px;
+      background: rgba(216,178,106,0.18);
+      top: -50px;
+      right: -20px;
+    }
+
+    .hero-card::after {
+      width: 300px;
+      height: 300px;
+      background: rgba(255,255,255,0.06);
+      bottom: -90px;
+      left: -80px;
+    }
+
+    .bottle-stage {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .bottle {
+      width: min(320px, 86%);
+      position: relative;
+      animation: floatBottle 4.4s ease-in-out infinite;
+    }
+
+    .cap {
+      width: 90px;
+      height: 72px;
+      background: linear-gradient(180deg, #2d2d34, #121217);
+      margin: 0 auto;
+      border-radius: 18px 18px 12px 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 4px 18px rgba(255,255,255,0.08);
+    }
+
+    .glass {
+      margin-top: 10px;
+      height: 390px;
+      border-radius: 36px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.23), rgba(255,255,255,0.05)),
+        linear-gradient(180deg, rgba(216,178,106,0.2), rgba(216,178,106,0.05));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: inset 0 1px 26px rgba(255,255,255,0.12), 0 25px 45px rgba(0,0,0,0.28);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 34px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 18px;
+      width: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.22), transparent 30%, rgba(255,255,255,0.08));
+      border-radius: 30px;
+      opacity: 0.7;
+    }
+
+    .glass small {
+      letter-spacing: 0.18em;
+      color: var(--gold-soft);
+      margin-bottom: 8px;
+    }
+
+    .glass h2 {
+      font-size: 2.7rem;
+      letter-spacing: 0.14em;
+      margin-bottom: 12px;
+    }
+
+    .glass p {
+      color: var(--muted);
+      max-width: 24ch;
+    }
+
+    .hero-label {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(8px);
+      max-width: 180px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .hero-label strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    section { padding: 82px 0; }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .section-head h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 10px;
+    }
+
+    .section-head p { color: var(--muted); max-width: 60ch; }
+
+    .category-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    .filter-btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      padding: 10px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: rgba(216,178,106,0.14);
+      border-color: rgba(216,178,106,0.3);
+      color: var(--text);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .product-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      transition: transform 0.28s ease, border-color 0.28s ease;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(216,178,106,0.28);
+    }
+
+    .product-visual {
+      height: 240px;
+      border-radius: 22px;
+      margin-bottom: 18px;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.24), transparent 28%),
+        linear-gradient(160deg, rgba(216,178,106,0.14), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mini-bottle {
+      width: 110px;
+      animation: floatBottle 4s ease-in-out infinite;
+    }
+
+    .mini-cap {
+      width: 42px;
+      height: 34px;
+      background: linear-gradient(180deg, #2c2b31, #111116);
+      margin: 0 auto 6px;
+      border-radius: 10px 10px 8px 8px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .mini-glass {
+      height: 128px;
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.06)),
+        linear-gradient(180deg, rgba(216,178,106,0.18), rgba(216,178,106,0.03));
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-soft);
+      font-weight: 800;
+      letter-spacing: 0.14em;
+    }
+
+    .product-tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      color: var(--gold-soft);
+      margin-bottom: 8px;
+    }
+
+    .product-card h3 { font-size: 1.3rem; margin-bottom: 8px; }
+    .product-card p { color: var(--muted); margin-bottom: 14px; }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: auto;
+      margin-bottom: 14px;
+    }
+
+    .price { font-size: 1.18rem; font-weight: 800; }
+    .notes { color: var(--muted); font-size: 0.92rem; }
+
+    .product-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .story-wrap,
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+
+    .story-visual {
+      min-height: 420px;
+      background:
+        radial-gradient(circle at center, rgba(216,178,106,0.18), transparent 28%),
+        linear-gradient(145deg, #15131b, #0c0c11);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-visual::before {
+      content: "FRAGRANCE";
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      font-size: clamp(2rem, 7vw, 4.6rem);
+      font-weight: 900;
+      color: rgba(255,255,255,0.08);
+      letter-spacing: 0.12em;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .feature {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .feature .icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: rgba(216,178,106,0.12);
+      border: 1px solid rgba(216,178,106,0.24);
+      color: var(--gold-soft);
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+    }
+
+    .feature h3 { margin-bottom: 10px; }
+    .feature p { color: var(--muted); }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .testimonial {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .stars { color: var(--gold-soft); letter-spacing: 0.18em; margin-bottom: 14px; }
+    .testimonial p { color: var(--muted); }
+    .author { margin-top: 16px; font-weight: 700; }
+
+    .contact-form .field { margin-bottom: 16px; }
+    .contact-form label { display: block; margin-bottom: 8px; color: var(--muted); }
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px 15px;
+      outline: none;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: rgba(216,178,106,0.48);
+      box-shadow: 0 0 0 3px rgba(216,178,106,0.12);
+    }
+
+    .contact-form textarea { min-height: 130px; resize: vertical; }
+
+    .footer {
+      padding: 28px 0 46px;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .small-links {
+      display: flex;
+      gap: 16px;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -420px;
+      width: min(100%, 400px);
+      height: 100vh;
+      background: #111118;
+      border-left: 1px solid var(--line);
+      z-index: 1200;
+      transition: right 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      box-shadow: -10px 0 40px rgba(0,0,0,0.4);
+    }
+
+    .cart-drawer.open { right: 0; }
+
+    .cart-head,
+    .cart-foot {
+      padding: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .cart-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cart-head h3 { font-size: 1.2rem; }
+
+    .close-cart {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .cart-empty {
+      color: var(--muted);
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .cart-item {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      border-radius: 18px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .cart-thumb {
+      height: 72px;
+      border-radius: 16px;
+      background:
+        linear-gradient(160deg, rgba(216,178,106,0.14), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.08);
+      display: grid;
+      place-items: center;
+      color: var(--gold-soft);
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      font-size: 0.85rem;
+    }
+
+    .cart-item h4 { margin-bottom: 4px; }
+    .cart-item p { color: var(--muted); font-size: 0.9rem; }
+
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .qty-btn, .remove-btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+    }
+
+    .remove-btn {
+      padding: 8px 10px;
+      color: var(--danger);
+      margin-top: 8px;
+    }
+
+    .cart-foot {
+      border-top: 1px solid var(--line);
+      border-bottom: none;
+      display: grid;
+      gap: 14px;
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.25s ease;
+      z-index: 1100;
+    }
+
+    .overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 82%;
+      max-width: 320px;
+      height: 100vh;
+      background: #101017;
+      z-index: 1250;
+      transition: left 0.3s ease;
+      border-right: 1px solid var(--line);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .mobile-menu.open { left: 0; }
+
+    .mobile-menu a {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: var(--muted);
+    }
+
+    .mobile-menu .btn { margin-top: auto; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background: #16161d;
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 14px 18px;
+      border-radius: 14px;
+      z-index: 1300;
+      transition: 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    @keyframes floatBottle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .story-wrap,
+      .contact-wrap,
+      .features,
+      .testimonial-grid,
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .features { grid-template-columns: repeat(2, 1fr); }
+      .testimonial-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-card { min-height: 520px; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .menu-btn { display: inline-flex; }
+      .hero, section { padding: 62px 0; }
+      .hero-grid,
+      .story-wrap,
+      .contact-wrap,
+      .features,
+      .testimonial-grid,
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero h1 { max-width: 100%; }
+      .hero-card { min-height: 430px; }
+      .glass { height: 280px; }
+      .hero-label { position: static; margin-bottom: 10px; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay"></div>
+
+  <aside class="mobile-menu" id="mobileMenu">
+    <div class="logo logo-image-wrap">
+      <img src="peshyo-logo.jpg" alt="PESHYO logo" class="brand-logo" />
+    </div>
+    <a href="#home">Home</a>
+    <a href="#shop">Shop</a>
+    <a href="#about">About</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#contact">Contact</a>
+    <a href="#shop" class="btn btn-primary">Shop Now</a>
+  </aside>
+
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-head">
+      <h3>Your Cart</h3>
+      <button class="close-cart" id="closeCart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">Your perfume cart is empty.</p>
+    </div>
+    <div class="cart-foot">
+      <div class="total-row">
+        <span>Total</span>
+        <span id="cartTotal">$0</span>
+      </div>
+      <button class="btn btn-primary" id="checkoutBtn">Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <header class="navbar">
+    <div class="container nav-wrap">
+      <a href="#home" class="logo logo-image-wrap">
+        <img src="peshyo-logo.jpg" alt="PESHYO logo" class="brand-logo" />
+      </a>
+
+      <nav class="nav-links" id="desktopNav">
+        <a href="#home" class="active">Home</a>
+        <a href="#shop">Shop</a>
+        <a href="#about">About</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="cart-btn" id="openCart">Cart (<span id="cartCount">0</span>)</button>
+        <button class="menu-btn" id="menuBtn">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <span class="eyebrow">Luxury perfume ecommerce experience</span>
+          <h1>Wear your signature. Own the room.</h1>
+          <p>
+            Explore elegant fragrances crafted for premium taste. This animated perfume website is built with a luxury UI,
+            smooth UX, responsive layout, and working add-to-cart system for modern ecommerce brands.
+          </p>
+          <div class="hero-actions">
+            <a href="#shop" class="btn btn-primary">Shop Collection</a>
+            <a href="#about" class="btn btn-outline">Learn More</a>
+          </div>
+          <div class="hero-badges">
+            <span>Free shipping over $150</span>
+            <span>Long-lasting oils</span>
+            <span>Premium packaging</span>
+          </div>
+        </div>
+
+        <div class="hero-card reveal">
+          <div class="hero-label">
+            <strong>Best Seller</strong>
+            Midnight Oud with amber and smoky cedar notes.
+          </div>
+          <div class="bottle-stage">
+            <div class="bottle">
+              <div class="cap"></div>
+              <div class="glass">
+                <small>EAU DE PARFUM</small>
+                <h2>NOIR</h2>
+                <p>Bold amber, dark rose, sandalwood, and musk blended into a luxury signature.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="shop">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <h2>Shop the Collection</h2>
+            <p>Browse our bestselling perfumes. Filter by category and add your favorites directly to the cart.</p>
+          </div>
+          <a href="#contact" class="btn btn-outline">Private Label Inquiry</a>
+        </div>
+
+        <div class="category-bar reveal">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="women">Women</button>
+          <button class="filter-btn" data-filter="men">Men</button>
+          <button class="filter-btn" data-filter="unisex">Unisex</button>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+          <article class="product-card reveal" data-category="women">
+            <div class="product-visual">
+              <div class="mini-bottle">
+                <div class="mini-cap"></div>
+                <div class="mini-glass">BLOOM</div>
+              </div>
+            </div>
+            <span class="product-tag">FLORAL LUXE</span>
+            <h3>Velvet Bloom</h3>
+            <p>Romantic jasmine, Turkish rose, creamy vanilla, and soft musk for a graceful trail.</p>
+            <div class="product-meta">
+              <div>
+                <div class="price">$120</div>
+                <div class="notes">75ml · Women</div>
+              </div>
+              <div class="notes">Rose · Vanilla</div>
+            </div>
+            <div class="product-actions">
+              <button class="btn btn-primary add-to-cart" data-id="1" data-name="Velvet Bloom" data-price="120">Add to Cart</button>
+              <button class="btn btn-outline">View Details</button>
+            </div>
+          </article>
+
+          <article class="product-card reveal" data-category="men">
+            <div class="product-visual">
+              <div class="mini-bottle">
+                <div class="mini-cap"></div>
+                <div class="mini-glass">OUD</div>
+              </div>
+            </div>
+            <span class="product-tag">WOODY ICON</span>
+            <h3>Midnight Oud</h3>
+            <p>Deep oud, amber resin, smoky cedar, and leather notes designed for powerful evenings.</p>
+            <div class="product-meta">
+              <div>
+                <div class="price">$145</div>
+                <div class="notes">100ml · Men</div>
+              </div>
+              <div class="notes">Oud · Amber</div>
+            </div>
+            <div class="product-actions">
+              <button class="btn btn-primary add-to-cart" data-id="2" data-name="Midnight Oud" data-price="145">Add to Cart</button>
+              <button class="btn btn-outline">View Details</button>
+            </div>
+          </article>
+
+          <article class="product-card reveal" data-category="unisex">
+            <div class="product-visual">
+              <div class="mini-bottle">
+                <div class="mini-cap"></div>
+                <div class="mini-glass">VEIL</div>
+              </div>
+            </div>
+            <span class="product-tag">FRESH ELEGANCE</span>
+            <h3>Citrus Veil</h3>
+            <p>Bright bergamot, neroli, white musk, and airy woods for a clean luxury identity.</p>
+            <div class="product-meta">
+              <div>
+                <div class="price">$98</div>
+                <div class="notes">60ml · Unisex</div>
+              </div>
+              <div class="notes">Bergamot · Musk</div>
+            </div>
+            <div class="product-actions">
+              <button class="btn btn-primary add-to-cart" data-id="3" data-name="Citrus Veil" data-price="98">Add to Cart</button>
+              <button class="btn btn-outline">View Details</button>
+            </div>
+          </article>
+
+          <article class="product-card reveal" data-category="women">
+            <div class="product-visual">
+              <div class="mini-bottle">
+                <div class="mini-cap"></div>
+                <div class="mini-glass">DUSK</div>
+              </div>
+            </div>
+            <span class="product-tag">EVENING FLORAL</span>
+            <h3>Golden Dusk</h3>
+            <p>Orange blossom, saffron, vanilla orchid, and warm amber in an elegant night fragrance.</p>
+            <div class="product-meta">
+              <div>
+                <div class="price">$132</div>
+                <div class="notes">90ml · Women</div>
+              </div>
+              <div class="notes">Saffron · Amber</div>
+            </div>
+            <div class="product-actions">
+              <button class="btn btn-primary add-to-cart" data-id="4" data-name="Golden Dusk" data-price="132">Add to Cart</button>
+              <button class="btn btn-outline">View Details</button>
+            </div>
+          </article>
+
+          <article class="product-card reveal" data-category="men">
+            <div class="product-visual">
+              <div class="mini-bottle">
+                <div class="mini-cap"></div>
+                <div class="mini-glass">NOIR</div>
+              </div>
+            </div>
+            <span class="product-tag">DARK CLASSIC</span>
+            <h3>Noir Leather</h3>
+            <p>A refined blend of leather, black pepper, patchouli, and smoky vetiver for sharp style.</p>
+            <div class="product-meta">
+              <div>
+                <div class="price">$138</div>
+                <div class="notes">85ml · Men</div>
+              </div>
+              <div class="notes">Leather · Vetiver</div>
+            </div>
+            <div class="product-actions">
+              <button class="btn btn-primary add-to-cart" data-id="5" data-name="Noir Leather" data-price="138">Add to Cart</button>
+              <button class="btn btn-outline">View Details</button>
+            </div>
+          </article>
+
+          <article class="product-card reveal" data-category="unisex">
+            <div class="product-visual">
+              <div class="mini-bottle">
+                <div class="mini-cap"></div>
+                <div class="mini-glass">AURA</div>
+              </div>
+            </div>
+            <span class="product-tag">MODERN UNISEX</span>
+            <h3>Amber Aura</h3>
+            <p>Amber, iris, sandalwood, and skin musk created for a smooth, premium everyday scent.</p>
+            <div class="product-meta">
+              <div>
+                <div class="price">$110</div>
+                <div class="notes">70ml · Unisex</div>
+              </div>
+              <div class="notes">Iris · Sandalwood</div>
+            </div>
+            <div class="product-actions">
+              <button class="btn btn-primary add-to-cart" data-id="6" data-name="Amber Aura" data-price="110">Add to Cart</button>
+              <button class="btn btn-outline">View Details</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <h2>Why this website feels premium</h2>
+            <p>Built with luxury layout principles, smooth interactions, and ecommerce-ready sections.</p>
+          </div>
+        </div>
+        <div class="features">
+          <div class="feature reveal">
+            <div class="icon">✦</div>
+            <h3>Luxury UI</h3>
+            <p>Dark premium background, gold accents, soft glass panels, and balanced spacing.</p>
+          </div>
+          <div class="feature reveal">
+            <div class="icon">✧</div>
+            <h3>Smooth UX</h3>
+            <p>Clear calls to action, easy navigation, responsive layout, and focused browsing flow.</p>
+          </div>
+          <div class="feature reveal">
+            <div class="icon">◈</div>
+            <h3>Animated Feel</h3>
+            <p>Floating product visuals and scroll reveal effects for a polished interactive experience.</p>
+          </div>
+          <div class="feature reveal">
+            <div class="icon">❖</div>
+            <h3>Add to Cart</h3>
+            <p>Working cart drawer with quantity controls, item removal, and total calculation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container story-wrap">
+        <div class="card reveal">
+          <span class="product-tag">ABOUT THE BRAND</span>
+          <h2 style="font-size:2rem; margin-bottom:14px;">A scent house shaped by elegance and emotion.</h2>
+          <p style="color: var(--muted); margin-bottom: 16px;">
+            PESHYO creates high-end perfume experiences for clients who want fragrance, branding, and digital presentation to feel timeless.
+          </p>
+          <p style="color: var(--muted); margin-bottom: 16px;">
+            This website layout is designed for perfume companies that need a strong first impression, beautiful product display, and ecommerce-ready customer journey.
+          </p>
+          <a href="#contact" class="btn btn-primary">Start a Perfume Project</a>
+        </div>
+        <div class="card story-visual reveal"></div>
+      </div>
+    </section>
+
+    <section id="reviews">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <h2>Client love</h2>
+            <p>Luxury brands choose elegant design and easy shopping experiences that convert well.</p>
+          </div>
+        </div>
+        <div class="testimonial-grid">
+          <div class="testimonial reveal">
+            <div class="stars">★★★★★</div>
+            <p>“The site looks premium, the cart works smoothly, and the perfume cards feel modern and expensive.”</p>
+            <div class="author">— Aurielle Studio</div>
+          </div>
+          <div class="testimonial reveal">
+            <div class="stars">★★★★★</div>
+            <p>“Beautiful luxury identity. Our products finally have an online presence that matches the quality of the fragrance.”</p>
+            <div class="author">— Scentora</div>
+          </div>
+          <div class="testimonial reveal">
+            <div class="stars">★★★★★</div>
+            <p>“Exactly what we wanted: elegant visuals, smooth UX, and a professional ecommerce feel.”</p>
+            <div class="author">— Noir Essence</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container contact-wrap">
+        <div class="card reveal">
+          <span class="product-tag">CONTACT</span>
+          <h2 style="font-size:2rem; margin-bottom:14px;">Let’s build your perfume brand online</h2>
+          <p style="color: var(--muted); margin-bottom: 16px;">
+            Want this customized with your company name, perfumes, logo, WhatsApp button, payment page, or real checkout integration? This design can be expanded easily.
+          </p>
+          <p style="color: var(--muted); margin-bottom: 8px;"><strong style="color: var(--text);">Email:</strong> hello@peshyo.com</p>
+          <p style="color: var(--muted); margin-bottom: 8px;"><strong style="color: var(--text);">Phone:</strong> +91 7559966190</p>
+          <p style="color: var(--muted); margin-bottom: 8px;">
+            <strong style="color: var(--text);">Instagram:</strong>
+            <a href="https://www.instagram.com/peshiyo_/" target="_blank" rel="noopener noreferrer">@peshiyo_</a>
+          </p>
+          <p style="color: var(--muted);"><strong style="color: var(--text);">Studio:</strong> Kerala, India</p>
+        </div>
+
+        <form class="card contact-form reveal" id="contactForm">
+          <div class="field">
+            <label for="name">Full Name</label>
+            <input id="name" type="text" placeholder="Enter your name" required />
+          </div>
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input id="email" type="email" placeholder="Enter your email" required />
+          </div>
+          <div class="field">
+            <label for="brand">Brand Name</label>
+            <input id="brand" type="text" placeholder="Enter your perfume brand" required />
+          </div>
+          <div class="field">
+            <label for="message">Project Details</label>
+            <textarea id="message" placeholder="Tell us about your perfume company and website goals" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Inquiry</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-wrap">
+      <p>© 2026 PESHYO. Designed for premium perfume brands.</p>
+      <div class="small-links">
+        <a href="#home">Home</a>
+        <a href="#shop">Shop</a>
+        <a href="https://www.instagram.com/peshiyo_/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">Added to cart</div>
+
+  <script>
+    const overlay = document.getElementById('overlay');
+    const cartDrawer = document.getElementById('cartDrawer');
+    const openCartBtn = document.getElementById('openCart');
+    const closeCartBtn = document.getElementById('closeCart');
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartCountEl = document.getElementById('cartCount');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const toast = document.getElementById('toast');
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const productCards = document.querySelectorAll('.product-card');
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    const navLinks = document.querySelectorAll('#desktopNav a');
+    const sections = document.querySelectorAll('main section');
+
+    let cart = [];
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1800);
+    }
+
+    function openCart() {
+      cartDrawer.classList.add('open');
+      overlay.classList.add('show');
+      document.body.classList.add('menu-open');
+    }
+
+    function closeCart() {
+      cartDrawer.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      overlay.classList.remove('show');
+      document.body.classList.remove('menu-open');
+    }
+
+    function openMenu() {
+      mobileMenu.classList.add('open');
+      overlay.classList.add('show');
+      document.body.classList.add('menu-open');
+    }
+
+    function addToCart(product) {
+      const existing = cart.find(item => item.id === product.id);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ ...product, qty: 1 });
+      }
+      renderCart();
+      showToast(product.name + ' added to cart');
+      openCart();
+    }
+
+    function changeQty(id, type) {
+      cart = cart.map(item => {
+        if (item.id === id) {
+          return { ...item, qty: type === 'inc' ? item.qty + 1 : item.qty - 1 };
+        }
+        return item;
+      }).filter(item => item.qty > 0);
+      renderCart();
+    }
+
+    function removeItem(id) {
+      cart = cart.filter(item => item.id !== id);
+      renderCart();
+      showToast('Item removed');
+    }
+
+    function renderCart() {
+      const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+      const totalPrice = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+      cartCountEl.textContent = totalItems;
+      cartTotalEl.textContent = '$' + totalPrice;
+
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML = '<p class="cart-empty">Your perfume cart is empty.</p>';
+        return;
+      }
+
+      cartItemsEl.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <div class="cart-thumb">${item.name.split(' ')[0].toUpperCase()}</div>
+          <div>
+            <h4>${item.name}</h4>
+            <p>$${item.price} each</p>
+            <div class="qty-row">
+              <button class="qty-btn" onclick="changeQty(${item.id}, 'dec')">−</button>
+              <span>${item.qty}</span>
+              <button class="qty-btn" onclick="changeQty(${item.id}, 'inc')">+</button>
+            </div>
+            <button class="remove-btn" onclick="removeItem(${item.id})">Remove</button>
+          </div>
+          <strong>$${item.price * item.qty}</strong>
+        </div>
+      `).join('');
+    }
+
+    window.changeQty = changeQty;
+    window.removeItem = removeItem;
+
+    openCartBtn.addEventListener('click', openCart);
+    closeCartBtn.addEventListener('click', closeCart);
+    overlay.addEventListener('click', closeCart);
+    menuBtn.addEventListener('click', openMenu);
+
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', closeCart);
+    });
+
+    addToCartButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        addToCart({
+          id: Number(btn.dataset.id),
+          name: btn.dataset.name,
+          price: Number(btn.dataset.price)
+        });
+      });
+    });
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        const filter = button.dataset.filter;
+
+        productCards.forEach(card => {
+          const show = filter === 'all' || card.dataset.category === filter;
+          card.style.display = show ? 'flex' : 'none';
+        });
+      });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.remove('active'));
+          const activeLink = document.querySelector(`#desktopNav a[href="#${entry.target.id}"]`);
+          if (activeLink) activeLink.classList.add('active');
+        }
+      });
+    }, { threshold: 0.45 });
+
+    sections.forEach(section => {
+      if (section.id) sectionObserver.observe(section);
+    });
+
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+      if (cart.length === 0) {
+        showToast('Your cart is empty');
+        return;
+      }
+      showToast('Checkout page can be connected next');
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      showToast('Inquiry sent successfully');
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
